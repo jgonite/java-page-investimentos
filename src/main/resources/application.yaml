@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jgonite
+    driverClassName: org.postgresql.Driver
+    username: jgonite
+    password: 796469aa
+  jpa:
+    properties:
+       hibernate:
+         default_schema: "JINVEST"
+         database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 7964
+url:
+  investe-site:
+    ranking-roic-evebtida-capital-intensivo: https://www.investsite.com.br/ranking_simultaneo_acoes_result.php?dt_arr=["YYYYMMDD","atual"]&crit_retorno=2&ret_min=0&ret_max=&crit_preco=1&preco_min=0&preco_max=&vol_financ_min=0&vol_financ_max=&market_cap_min=&market_cap_max=&check_list[]=Financeiro&check_list[]=Utilidade Pública
+    ranking-roic-evebtida-utilidades: https://www.investsite.com.br/ranking_simultaneo_acoes_result.php?dt_arr=["YYYYMMDD","atual"]&crit_retorno=2&ret_min=0&ret_max=&crit_preco=1&preco_min=0&preco_max=&vol_financ_min=0&vol_financ_max=&market_cap_min=&market_cap_max=&check_list[]=Bens Industriais&check_list[]=Comunicações&check_list[]=Consumo Cíclico&check_list[]=Consumo não Cíclico&check_list[]=Financeiro&check_list[]=Materiais Básicos&check_list[]=Outros&check_list[]=Petróleo. Gás e Biocombustíveis&check_list[]=Saúde&check_list[]=Tecnologia da Informação
+    ranking-roe-pl-financeiras: https://www.investsite.com.br/ranking_simultaneo_acoes_financ_result.php?dt_arr=["YYYYMMDD","atual"]&crit_retorno=1&ret_min=0&ret_max=&crit_preco=1&preco_min=0&preco_max=&vol_financ_min=0&vol_financ_max=&market_cap_min=&market_cap_max=
+    dados-acoes: https://www.investsite.com.br/includes/principais_indicadores_ajax.php
+    principais-indicadores: https://www.investsite.com.br/principais_indicadores.php?cod_negociacao=
+scrapping:
+  url:
+    yahoo-dados-historicos: https://finance.yahoo.com/quote/{TICKER}.SA/history/?period1={TIMESTAMP1}&period2={TIMESTAMP2}
+open-apis:
+    brapi:
+      token: hm2ukQXTFFUUBRXewj8aCx
+      uri-acao-3mes: https://brapi.dev/api/quote/{TICKER}?range=3mo&interval=1d&token=hm2ukQXTFFUUBRXewj8aCx
+    brasil-api:
+      uri-feriados: https://brasilapi.com.br/api/feriados/v1/{ano}
+
+arquivos:
+  preco-acoes:
+    caminho: /api-java/preco-acoes/20240906

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Resultado Magic Formula</title>
+	<meta charset="utf-8">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			white-space: nowrap;
+			width: auto;
+		}
+	</style>
+</head>
+<h2>Carteira de investimentos:</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Data de extração</th>
+				<th>Papel</th>
+				<th>Ev Ebit (R$)</th>
+				<th>Roic (%)</th>
+				<th>Raking</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="acao : ${ranking}">
+				<td th:text="${acao.dataExtracao}"></td>
+				<td th:text="${acao.papel}"></td>
+				<td th:text="${acao.evEbit}"></td>
+				<td th:text="${acao.roic}"></td>
+				<td th:text="${acao.posicao}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+</html>

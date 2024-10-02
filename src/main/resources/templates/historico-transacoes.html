@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Historico de Transacaoes</title>
+	<meta charset="utf-8">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			white-space: nowrap;
+			width: auto;
+		}
+	</style>
+</head>
+<h2>Histórico de transções:</h2>
+
+	<table>
+		<td>
+			<table>
+				<thead>
+					<tr>
+						<th>Data da movimentação</th>
+						<th>Ação</th>
+						<th># movimentado</th>
+						<th>Valor transação (R$)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="movimento : ${movimentacoes}">
+						
+						<td th:text="${movimento.dataMovimento}"></td>
+						<td th:text="${movimento.nomeAcao}"></td>
+						<td th:text="${movimento.numeroAcoes}"></td>
+						<td th:text="${movimento.valorTransacao}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+		<td>
+			<table>
+				<thead>
+					<tr>
+						<th>Data do dividendo</th>
+						<th>Ação</th>
+						<th>Valor recebido (R$)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="dividendo : ${dividendos}">
+						<td th:text="${dividendo.dataDividendo}"></td>
+						<td th:text="${dividendo.nomeAcao}"></td>
+						<td th:text="${dividendo.valorRecebido}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</td>
+	</table>
+		
+	
+	
+</html>

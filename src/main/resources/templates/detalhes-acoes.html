@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Ação</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .charts-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .chart-container {
+            width: 45%;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalhes da ação: <span th:text="${detalhesAcao.ticker}"></span></h1>
+
+    <div class="charts-grid">
+        <div class="chart-container">
+            <canvas id="chartRoic"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="chartEndividamento"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="chartMargemLiquida"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="chartMargemEbitda"></canvas>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const formatDate = dateStr => dateStr.slice(4, 6) + '/' + dateStr.slice(0, 4);
+
+        const calculateAverage = data => data.reduce((a, b) => a + b, 0) / data.length;
+
+        const formatPercentage = value => (value * 100).toFixed(2) + '%';
+
+        const createChart = (ctx, title, labels, data, color, isPercentage) => {
+            const formattedData = isPercentage ? data.map(val => val * 100) : data;
+            const averageValue = calculateAverage(formattedData);
+            const averageLineData = Array(labels.length).fill(averageValue);
+            const averageLabel = `Média ${isPercentage ? formatPercentage(averageValue / 100) : averageValue.toFixed(2)}`;
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: formattedData,
+                        borderColor: color,
+                        backgroundColor: color.replace('1)', '0.2)'),
+                        pointRadius: 5,
+                        pointBackgroundColor: color
+                    }, {
+                        label: averageLabel,
+                        data: averageLineData,
+                        borderColor: 'rgba(255, 205, 86, 1)',
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Trimestre'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: title
+                            },
+                            ticks: {
+                                callback: isPercentage ? val => formatPercentage(val / 100) : val => val.toFixed(2)
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title
+                        }
+                    }
+                }
+            });
+        };
+
+        const detalhesAcao = [[${detalhesAcao}]];
+        const graficoRoic = detalhesAcao.graficoRoic;
+        const graficoMargemLiquida = detalhesAcao.graficoMargemLiquida;
+        const graficoMargemEbitda = detalhesAcao.graficoMargemEbitda;
+        const graficoEndividamento = detalhesAcao.graficoEndividamento;
+
+        createChart(document.getElementById('chartRoic'), graficoRoic.titulo, Object.keys(graficoRoic.pontos).map(formatDate), Object.values(graficoRoic.pontos), 'rgba(75, 192, 192, 1)', true);
+        createChart(document.getElementById('chartMargemLiquida'), graficoMargemLiquida.titulo, Object.keys(graficoMargemLiquida.pontos).map(formatDate), Object.values(graficoMargemLiquida.pontos), 'rgba(75, 192, 192, 1)', true);
+        createChart(document.getElementById('chartMargemEbitda'), graficoMargemEbitda.titulo, Object.keys(graficoMargemEbitda.pontos).map(formatDate), Object.values(graficoMargemEbitda.pontos), 'rgba(75, 192, 192, 1)', true);
+        createChart(document.getElementById('chartEndividamento'), graficoEndividamento.titulo, Object.keys(graficoEndividamento.pontos).map(formatDate), Object.values(graficoEndividamento.pontos), 'rgba(255, 99, 132, 1)', false);
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+--drop table
+DROP TABLE JINVEST.TB_MOVI_ACOE
+
+--create table
+CREATE TABLE JINVEST.TB_MOVI_ACOE (
+NR_SEQU_MOVI_ACOE bigint auto_increment,
+DT_MOVI timestamp,
+NM_ACAO varchar(255),
+NR_ACOE int,
+VL_ACAO varchar(10)
+);
+
+CREATE TABLE JINVEST.TB_DIVI_ACOE (
+NR_SEQU_DIVI_ACOE bigint auto_increment,
+DT_DIVI timestamp,
+NM_ACAO varchar(255),
+VL_RECE VARCHAR(10)
+);
+
+-- select
+
+
+sudo systemctl start redis-server.service
+sudo systemctl enable redis-server.service

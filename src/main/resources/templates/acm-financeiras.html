@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mais Baratas Financeiras</title>
+	<meta charset="utf-8">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			white-space: nowrap;
+			width: auto;
+		}
+	</style>
+</head>
+<h2>Carteira de investimentos:</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Ticker</th>
+				<th>Nome</th>
+				<th>Data DRE</th>
+				<th>ROE</th>
+				<th>P/L</th>
+				<th>Soma Ranking</th>
+				<th>Liquidez Média 3 Meses</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="acao : ${ranking}">
+				<td th:text="${acao.posicaoFinal}"></td>
+				<td th:text="${acao.ticker}"></td>
+				<td th:text="${acao.nome}"></td>
+				<td th:text="${acao.dataUltimoDRE}"></td>
+				<td th:text="${acao.roe}"></td>
+				<td th:text="${acao.pl}"></td>
+				<td th:text="${acao.somaRanking}"></td>
+				<td th:text="${acao.volume90Dias}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+</html>

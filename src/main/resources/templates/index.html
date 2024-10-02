@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dashboard de investimentos</title>
+	<meta charset="utf-8">
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			max-width: 800px;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
+
+		th {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			white-space: nowrap;
+			width: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<script>
+		function comprar(event) {
+			event.preventDefault();
+			const acao = document.getElementById('acao').value;
+			const compraVenda = document.getElementById('compraVenda').value;
+			const qtdAcoes = document.getElementById('qtdAcoes').value;
+			const valorbruto = document.getElementById('valorBruto').value;
+			const dataMovimento = document.getElementById('dataMovimento').value;
+			const compra = {
+				acao: acao,
+				compraVenda: compraVenda,
+				qtdAcoes: qtdAcoes,
+				valorBruto: valorBruto,
+				dataMovimento: dataMovimento
+			};
+			if (compra.acao !== "") {
+				fetch('http://localhost:8080/api/v1/movimento-acoes/comprar', {
+				method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(compra)
+			})
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					alert(data.mensagem);
+				})
+				.catch(error => {
+					alert('Ocorreu um erro:', error.json().mensagem);
+				});
+			} else {
+				alert("Por favor selecionar a ação que deseja comprar");
+			}
+			
+		}
+		
+		function ganharDividendo(event) {
+			event.preventDefault();
+			const acaoDividendo = document.getElementById('acaoDividendo').value;
+			const valorRecebidoReais = document.getElementById('valorRecebidoReais').value;
+			const valorRecebidoAcoes = document.getElementById('valorRecebidoAcoes').value;
+			const dataDividendo = document.getElementById('dataDividendo').value;
+			const dividendo = {
+				acaoDividendo: acaoDividendo,
+				valorRecebidoReais: valorRecebidoReais,
+				valorRecebidoAcoes: valorRecebidoAcoes,
+				dataDividendo: dataDividendo
+			};
+			if (dividendo.acaoDividendo !== "") {
+				fetch('http://localhost:8080/api/v1/dividendo-acoes', {
+				method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(dividendo)
+			})
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					alert(data.mensagem);
+				})
+				.catch(error => {
+					alert('Ocorreu um erro:', error.json().mensagem);
+				});
+			} else {
+				alert("Por favor selecionar a ação que deseja comprar");
+			}
+			
+		}
+		
+		function uploadFileMovimentos() {
+		            const fileInput = document.getElementById('fileInputMovimentos');
+		            const file = fileInput.files[0];
+					if (!file) {
+		                alert("Por favor, selecione um arquivo primeiro.");
+		                return;
+		            }
+
+		            const formData = new FormData();
+		            formData.append('file', file);
+
+		            fetch('http://localhost:8080/api/v1/movimento-acoes/uploadMovimentacoes', {
+		                method: 'POST',
+		                body: formData
+		            })
+					.then(response => {
+						return response.json();
+					})
+					.then(data => {
+						alert(data.mensagem);
+						location.reload();
+					})
+					.catch(error => {
+						alert('Ocorreu um erro:', error.json().mensagem);
+					});
+		        }
+				
+				function uploadFileDividendos() {
+				            const fileInput = document.getElementById('fileInputDividendos');
+				            const file = fileInput.files[0];
+							if (!file) {
+				                alert("Por favor, selecione um arquivo primeiro.");
+				                return;
+				            }
+
+				            const formData = new FormData();
+				            formData.append('file', file);
+
+				            fetch('http://localhost:8080/api/v1/dividendo-acoes/uploadDividendosBonificacoes', {
+				                method: 'POST',
+				                body: formData
+				            })
+							.then(response => {
+								return response.json();
+							})
+							.then(data => {
+								alert(data.mensagem);
+								location.reload();
+							})
+							.catch(error => {
+								alert('Ocorreu um erro:', error.json().mensagem);
+							});
+				        }
+						
+				function uploadFilePrecoAcao() {
+				            const fileInput = document.getElementById('fileInputPrecoAcao');
+				            const file = fileInput.files[0];
+							if (!file) {
+				                alert("Por favor, selecione um arquivo primeiro.");
+				                return;
+				            }
+
+				            const formData = new FormData();
+				            formData.append('file', file);
+
+				            fetch('http://localhost:8080/api/v1/preco-acao/uploadPrecos', {
+				                method: 'POST',
+				                body: formData
+				            })
+							.then(response => {
+								return response.json();
+							})
+							.then(data => {
+								alert(data.mensagem);
+								location.reload();
+							})
+							.catch(error => {
+								alert('Ocorreu um erro:', error.json().mensagem);
+							});
+				        }
+								
+				function uploadFileInplitSplit() {
+				            const fileInput = document.getElementById('fileInputInplitSplit');
+				            const file = fileInput.files[0];
+							if (!file) {
+				                alert("Por favor, selecione um arquivo primeiro.");
+				                return;
+				            }
+
+				            const formData = new FormData();
+				            formData.append('file', file);
+
+				            fetch('http://localhost:8080/api/v1/preco-acao/uploadInplitSplit', {
+				                method: 'POST',
+				                body: formData
+				            })
+							.then(response => {
+								return response.json();
+							})
+							.then(data => {
+								alert(data.mensagem);
+								location.reload();
+							})
+							.catch(error => {
+								alert('Ocorreu um erro:', error.json().mensagem);
+							});
+				        }
+	</script>
+
+	<h1>Dashboard de Investimentos</h1>
+	<table>
+		<tbody>
+			<tr>
+			<td>
+				<h2>Adicionar uma compra/venda:</h2>
+				<form onsubmit="comprar(event)">
+					<div>
+						<label for="seletorAcao">Ação:</label>
+						<select id="acao">
+							<option value="">SELECIONAR</option>
+							<option th:each="acaoFundamentus : ${acoesDisponiveis}" 
+							th:value="${acaoFundamentus}" 
+							th:text="${acaoFundamentus}"></option>
+						</select>
+					</div>
+					<div>
+						<label for="compraVenda">Lado da operação:</label>
+						<select id="compraVenda">
+							<option value="COMPRAR">Comprar</option>
+							<option value="VENDER">Venda</option> 
+						</select>
+					</div>
+					<br>
+					<div>
+						<label for="qtdAcoes">Quantidade de ações:</label>
+						<input required type="number" id="qtdAcoes" />
+					</div>
+					<br>
+					<div>
+						<label for="valorBruto">Valor pago (R$):</label>
+						<input required type="text" id="valorBruto" />
+						<p>Usar virgula para separar decimais</p>
+					</div>
+					<br>
+					<div>
+						<label for="dataMovimento">Data da movimentação:</label>
+						<input type="date" id="dataMovimento" />
+					</div>
+					<br>
+					<div class="button">
+						<button type="submit">Submeter compra</button>
+					</div>
+				</form>
+			</td>
+			<td>
+				<h2>Adicionar dividendo/JCP/Bonificacao:</h2>
+				<form onsubmit="ganharDividendo(event)">
+					<div>
+						<label for="seletorAcaoDividendo">Ação:</label>
+						<select id="acaoDividendo">
+							<option value="">SELECIONAR</option>
+							<option th:each="acaoFundamentus : ${acoesDisponiveis}" 
+							th:value="${acaoFundamentus}" 
+							th:text="${acaoFundamentus}"></option>
+						</select>
+					</div>
+					<br>
+					<div>
+						<label for="valorRecebidoReais">Dividendo/JCP recebido (R$ ja descontado):</label>
+						<input required type="text" id="valorRecebidoReais" />
+						<p>Usar virgula para separar decimais</p>
+					</div>
+					<div>
+						<label for="valorRecebidoAcoes">Quantidade acoes recebidas:</label>
+						<input required type="number" id="valorRecebidoAcoes" />
+					</div>
+					<br>
+					<div>
+						<label for="dataDividendo">Data da movimentação:</label>
+						<input type="date" id="dataDividendo" />
+					</div>
+					<br>
+					<div class="button">
+						<button type="submit">Submeter provento</button>
+					</div>
+				</form>
+			</td>
+			<td>
+				<tr>
+					<h2>Importar planilha movimentos:</h2>
+					<form id="uploadFormMovimentos" enctype="multipart/form-data">
+				        <input type="file" id="fileInputMovimentos" name="file" accept=".csv"/>
+				        <button type="button" onclick="uploadFileMovimentos()">Upload</button>
+				    </form>
+				</tr>
+				<tr>
+					<h2>Importar planilha dividendos/bonificações:</h2>
+					<form id="uploadFormDividendos" enctype="multipart/form-data">
+				        <input type="file" id="fileInputDividendos" name="file" accept=".csv"/>
+				        <button type="button" onclick="uploadFileDividendos()">Upload</button>
+				    </form>
+				</tr>
+				<tr>
+					<h2>Importar planilha preço das ações:</h2>
+					<form id="uploadFormPrecoAcao" enctype="multipart/form-data">
+				        <input type="file" id="fileInputPrecoAcao" name="file" accept=".csv"/>
+				        <button type="button" onclick="uploadFilePrecoAcao()">Upload</button>
+				    </form>
+				</tr>
+				<tr>
+					<h2>Importar planilha inplit-split:</h2>
+					<form id="uploadFormInplitSplit" enctype="multipart/form-data">
+				        <input type="file" id="fileInputInplitSplit" name="file" accept=".csv"/>
+				        <button type="button" onclick="uploadFileInplitSplit()">Upload</button>
+				    </form>
+				</tr>
+			</td>
+			
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+
+
+	<h2>Carteira de investimentos:</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Ação</th>
+				<th>Qtd. Ações</th>
+				<th>Valor Investido (R$)</th>
+				<th>Valor Atual (R$)</th>
+				<th>Valor Proventos (R$)</th>
+				<th>Preço Médio (R$)</th>
+				<th>ROI (%)</th>
+				<th>Perc. Carteira (%)</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="acao : ${acoesDaCarteira.carteiraAcoes}">
+				<td th:text="${acao.acao}"></td>
+				<td th:text="${acao.qtdAcoes}"></td>
+				<td th:text="${acao.valorInvestido}"></td>
+				<td th:text="${acao.valorAtual}"></td>
+				<td th:text="${acao.valorProventos}"></td>
+				<td th:text="${acao.precoMedio}"></td>
+				<td th:text="${acao.ROI}"></td>
+				<td th:text="${acao.percCarteira}"></td>
+			</tr>
+			<tr>
+				<td >TOTAL</td>
+				<td >-</td>
+				<td th:text="${acoesDaCarteira.valorInvestido}"></td>
+				<td th:text="${acoesDaCarteira.valorAtual}"></td>
+				<td th:text="${acoesDaCarteira.valorProventos}"></td>
+				<td >-</td>
+				<td th:text="${acoesDaCarteira.ROI}"></td>
+				<td >100%</td>
+			</tr>
+			<!--
+			<tr>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			-->
+		</tbody>
+	</table>
+
+
+</body>
+
+</html>
